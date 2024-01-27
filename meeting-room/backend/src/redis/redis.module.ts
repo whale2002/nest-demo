@@ -7,7 +7,6 @@ import { createClient } from 'redis';
 @Global()
 @Module({
   providers: [
-    RedisService,
     {
       provide: 'REDIS_CLIENT',
       inject: [ConfigService],
