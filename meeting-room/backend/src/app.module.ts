@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -7,25 +8,32 @@ import { User, Role, Permission } from './entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.HOST,
-      port: 3306,
-      username: process.env.USERNAME,
-      password: process.env.PASSWORD,
-      database: 'meeting',
-      synchronize: true,
-      logging: true,
-      entities: [User, Role, Permission],
-      poolSize: 10,
-      connectorPackage: 'mysql2',
-      extra: {
-        authPlugin: 'sha256_password'
-      }
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('DATABASE_HOST'),
+        port: configService.get<number>('DATABASE_PORT'),
+        username: configService.get<string>('DATABASE_USERNAME'),
+        password: configService.get<string>('DATABASE_PASSWORD'),
+        database: configService.get<string>('DATABASE_DATABASE'),
+        synchronize: true,
+        logging: true,
+        poolSize: 10,
+        connectorPackage: 'mysql2',
+        entities: [User, Role, Permission],
+        extra: {
+          authPlugin: 'sha256_password'
+        }
+      })
     }),
     UserModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [ConfigService, AppService],
+  exports: [ConfigService]
 })
 export class AppModule {}
