@@ -24,7 +24,7 @@ export class UserService {
 
   async register(user: RegisterUserDto) {
     const captcha = await this.redisService.get(`captcha_${user.email}`);
-    console.log(captcha);
+    console.log(`邮箱为${user.email}的用户的验证码为: `, captcha);
 
     if (!captcha) {
       throw new HttpException('验证码已失效', HttpStatus.BAD_REQUEST);
