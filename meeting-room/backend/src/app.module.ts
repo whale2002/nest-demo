@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { User, Role, Permission } from './entity';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { User, Role, Permission } from './entity';
         }
       })
     }),
-    UserModule
+    UserModule,
+    RedisModule
   ],
   controllers: [AppController],
   providers: [ConfigService, AppService],
