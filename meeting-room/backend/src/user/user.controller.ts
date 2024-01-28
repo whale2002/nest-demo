@@ -20,9 +20,9 @@ export class UserController {
     return await this.userService.register(registerUser);
   }
 
-  @Get('captcha')
+  @Get('get-captcha')
   async captcha(@Query('address') address: string) {
-    const code = Math.random().toString().slice(2, 8);
+    const code = Math.random().toString().slice(2, 8); // 随机生成6位数验证码
 
     await this.redisService.set(`captcha_${address}`, code, 5 * 60);
 

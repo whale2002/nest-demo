@@ -11,7 +11,8 @@ import { EmailModule } from './email/email.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
+      envFilePath: 'src/.env'
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],

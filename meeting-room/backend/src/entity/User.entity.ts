@@ -4,9 +4,9 @@ import {
   Column,
   CreateDateColumn,
   ManyToMany,
-  JoinColumn
+  JoinTable
 } from 'typeorm';
-import { Role } from './Role';
+import { Role } from './Role.entity';
 
 @Entity({
   name: 'users'
@@ -79,7 +79,7 @@ export class User {
   updateTime: Date;
 
   @ManyToMany(() => Role)
-  @JoinColumn({
+  @JoinTable({
     name: 'user_roles'
   })
   roles: Role[];

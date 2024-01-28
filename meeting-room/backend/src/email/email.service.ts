@@ -11,8 +11,8 @@ export class EmailService {
     this.configService = configService;
     this.transporter = createTransport({
       host: this.configService.get<string>('EMAIL_SERVER'),
-      port: 465,
-      secure: true,
+      port: this.configService.get<string>('EMAIL_POST'),
+      secure: true, // 465 端口安全，587 端口不安全
       auth: {
         user: this.configService.get<string>('EMAIL_SENDER'),
         pass: this.configService.get<string>('EMAIL_CODE')

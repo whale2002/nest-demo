@@ -2,20 +2,28 @@
 
 ## 环境变量配置
 
-创建 .env 文件
+创建 src/.env 文件
 
 ```
-DATABASE_HOST=
-DATABASE_PORT=3306
-DATABASE_USERNAME=
-DATABASE_PASSWORD=
-DATABASE_DATABASE=
+# nest
+NEST_POST= # 端口
 
-REDIS_HOST=
-REDIS_PORT=6379
-REDIS_PASSWORD=
+# mysql
+DATABASE_HOST= # mysql 主机
+DATABASE_PORT=3306 # mysql 端口
+DATABASE_USERNAME= # mysql 用户名
+DATABASE_PASSWORD=123456 # mysql 密码
+DATABASE_DATABASE= # mysql 数据库名
 
-EMAIL_SERVER=
-EMAIL_SENDER=
-EMAIL_CODE=
+# redis
+REDIS_HOST= # redis 主机
+REDIS_PORT=6379 # redis 端口
+REDIS_PASSWORD= # redis 密码
+REDIS_DB= # redis 数据库
+
+# email
+EMAIL_SERVER= # 邮箱服务器
+EMAIL_POST= # 邮箱服务器端口号
+EMAIL_SENDER= # 发送邮箱
+EMAIL_CODE= # 发送邮箱的授权码
 ```

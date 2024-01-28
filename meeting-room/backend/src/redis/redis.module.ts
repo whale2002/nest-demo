@@ -7,6 +7,7 @@ import { createClient } from 'redis';
 @Global()
 @Module({
   providers: [
+    RedisService,
     {
       provide: 'REDIS_CLIENT',
       inject: [ConfigService],
@@ -17,7 +18,7 @@ import { createClient } from 'redis';
             port: configService.get<number>('REDIS_PORT')
           },
           password: configService.get<string>('REDIS_PASSWORD'),
-          database: 0
+          database: configService.get<number>('REDIS_DB')
         });
 
         await client.connect();

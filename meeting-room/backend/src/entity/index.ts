@@ -1,5 +1,5 @@
-import { User } from './User';
-import { Role } from './Role';
-import { Permission } from './Permission';
+import { User } from './User.entity';
+import { Role } from './Role.entity';
+import { Permission } from './Permission.entity';
 
 export { User, Role, Permission };
