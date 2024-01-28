@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -10,6 +11,18 @@ import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      global: true,
+      useFactory(configService: ConfigService) {
+        return {
+          secret: configService.get<string>('JWT_SECRET'),
+          signOptions: {
+            expiresIn: '30m'
+          }
+        };
+      }
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: 'src/.env'

@@ -9,7 +9,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   const configService = app.get(ConfigService);
-  await app.listen(configService.get<number>('NEST_POST'));
+  await app.listen(configService.get<number>('NEST_POST') | 3000);
 }
 
 bootstrap();
