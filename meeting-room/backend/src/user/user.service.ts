@@ -103,10 +103,14 @@ export class UserService {
       updateTime: user.updateTime,
       isFrozen: user.isFrozen,
       roles: user.roles.map((item) => item.name),
-      permissions: user.roles
-        .map((item) => item.permissions)
-        .reduce((a, b) => a.concat(b), [])
-        .map((item) => item.code)
+      permissions: user.roles.reduce((arr, item) => {
+        item.permissions.forEach((permission) => {
+          if (arr.indexOf(permission) === -1) {
+            arr.push(permission);
+          }
+        });
+        return arr;
+      }, [])
     };
 
     const token = this.generateToken(loginVo.userInfo);
