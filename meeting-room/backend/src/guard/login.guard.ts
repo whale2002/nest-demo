@@ -8,7 +8,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
-import { Permission } from './entity';
+import { Permission } from '../entity';
 import { Request } from 'express';
 
 interface JwtUserData {

@@ -9,8 +9,8 @@ import { UserModule } from './user/user.module';
 import { User, Role, Permission } from './entity';
 import { RedisModule } from './redis/redis.module';
 import { EmailModule } from './email/email.module';
-import { LoginGuard } from './login.guard';
-import { PermissionGuard } from './permission.guard';
+import { LoginGuard } from './guard/login.guard';
+import { PermissionGuard } from './guard/permission.guard';
 
 @Module({
   imports: [
