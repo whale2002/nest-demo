@@ -17,7 +17,6 @@ import { RequireLogin, UserInfo } from 'src/custom.decorator';
 import { UserInfoVo } from './vo/UserInfoVo';
 import { UpdataUserPasswordDto } from './dto/UpdataUserPasswordDto';
 import { UpdateUserDto } from './dto/UpdateUserDto';
-
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}

@@ -248,6 +248,7 @@ export class UserService {
       return '修改密码成功';
     } catch (e) {
       this.logger.error(e, UserService);
+      return '修改密码失败';
     }
   }
 
@@ -273,13 +274,16 @@ export class UserService {
     if (updateUserDto.nickName) {
       foundUser.nickName = updateUserDto.nickName;
     }
+    if (updateUserDto.email) {
+      foundUser.email = updateUserDto.email;
+    }
 
     try {
       await this.userRepository.save(foundUser);
       return '用户信息修改成功';
     } catch (e) {
       this.logger.error(e, UserService);
-      return '用户信息修改成功';
+      return '用户信息修改失败';
     }
   }
 }
