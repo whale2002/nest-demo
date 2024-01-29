@@ -5,7 +5,8 @@ import {
   Body,
   Inject,
   Query,
-  UnauthorizedException
+  UnauthorizedException,
+  DefaultValuePipe
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterUserDto } from './dto/RegisterUserDto';
@@ -17,6 +18,7 @@ import { RequireLogin, UserInfo } from 'src/custom.decorator';
 import { UserInfoVo } from './vo/UserInfoVo';
 import { UpdataUserPasswordDto } from './dto/UpdataUserPasswordDto';
 import { UpdateUserDto } from './dto/UpdateUserDto';
+import { generateParseIntPipe } from 'src/utils';
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -161,5 +163,37 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto
   ) {
     return await this.userService.updata(userId, updateUserDto);
+  }
+
+  @Get('freeze')
+  @RequireLogin()
+  async freeze(@Query('id') useId: number) {
+    await this.userService.freezeUserById(useId);
+
+    return 'success';
+  }
+
+  @Get('users')
+  @RequireLogin()
+  async getUserList(
+    @Query('pageNo', new DefaultValuePipe(1), generateParseIntPipe('pageNo'))
+    pageNo: number,
+    @Query(
+      'pageSize',
+      new DefaultValuePipe(10),
+      generateParseIntPipe('pageSize')
+    )
+    pageSize: number,
+    @Query('username') username: string,
+    @Query('nickName') nickName: string,
+    @Query('email') email: string
+  ) {
+    return await this.userService.getUsersList(
+      username,
+      nickName,
+      email,
+      pageNo,
+      pageSize
+    );
   }
 }

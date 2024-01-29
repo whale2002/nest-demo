@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Permission, Role, User } from 'src/entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { RegisterUserDto } from './dto/RegisterUserDto';
 import { RedisService } from 'src/redis/redis.service';
 import { md5 } from 'src/utils';
@@ -285,5 +285,56 @@ export class UserService {
       this.logger.error(e, UserService);
       return '用户信息修改失败';
     }
+  }
+
+  async freezeUserById(id: number) {
+    const user = await this.userRepository.findOneBy({
+      id
+    });
+
+    user.isFrozen = true;
+    await this.userRepository.save(user);
+  }
+
+  async getUsersList(
+    username: string,
+    nickName: string,
+    email: string,
+    pageNo: number,
+    pageSize: number
+  ) {
+    const skipCount = (pageNo - 1) * pageSize;
+    const condition = Object.create(null);
+
+    if (username) {
+      condition.username = Like(`%${username}%`);
+    }
+    if (nickName) {
+      condition.nickName = Like(`%${nickName}%`);
+    }
+    if (email) {
+      condition.email = Like(`%${email}%`);
+    }
+
+    const [users, totalCount] = await this.userRepository.findAndCount({
+      skip: skipCount,
+      take: pageSize,
+      select: [
+        'id',
+        'username',
+        'nickName',
+        'email',
+        'phoneNumber',
+        'isFrozen',
+        'headPic',
+        'createTime'
+      ],
+      where: condition
+    });
+
+    return {
+      users,
+      totalCount
+    };
   }
 }
